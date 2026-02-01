@@ -1,25 +1,31 @@
 #ifndef __MULTI_MAP_CUSTOM_HEADER___
 #define __MULTI_MAP_CUSTOM_HEADER___
 
+#include <cstddef>
 #include <utility>
 
 
 template<typename K, typename D>
 class MultiMapCustom {
-    #define __MIN_DEFAULT_SIZE__ 0
-    
-    using Pair = std::pair<K,D>;
+    enum NODE_COLOR {
+        BLACK = false,
+        RED = true
+    };
 
     private:
         /* Tree Node Definition */
         class TreeNode {
             private:
-                size_t index;
+                size_t descendants;
                 K key;
                 D data;
-            public:
+                NODE_COLOR color;
 
+                TreeNode *left, *right, *parent;
+            public:
+                TreeNode(K, D);
         };
+        static constexpr size_t NODE_SIZE = sizeof(TreeNode);
     
     private:
         /* Forward Iterator Definition */
@@ -30,22 +36,38 @@ class MultiMapCustom {
         class Backwards_Iterator {
 
         };
-    
-    private:
-        /* MultiMapCustom Private Methods Definition */
-        void resize_memory(size_t new_size) {
 
-        }
     private:
-        /* MultiMapCustom Private Variable Definition */
-        size_t size = 0, memory_size = 8;
-        bool has_root;
+        /* MultiMapCustom Helper Method Definitions */
+        void left_rotate(const TreeNode *);
+        void right_rotate(const TreeNode *);
 
-        TreeNode *tree_memory;
+        void insert_node(const TreeNode *);
+        void delete_node(const TreeNode *);
+
+    private:
+        /* MultiMapCustom Private Variable Definitions */
+        size_t tree_size;
+        TreeNode *root;
     
     public:
-        /* MultiMapCustom Public Methods Definition */
+        /* MultiMapCustom Constructor/Destructor Definitions */
+        MultiMapCustom();
+        ~MultiMapCustom();
 
+    public:
+        /* MultiMapCustom Capacity Method Definitions */
+        size_t is_empty() const;
+        size_t size() const;
+    
+    public:
+        /* MultiMapCustom Iterator Method Definitions */
+    
+    public:
+        /* MultiMapCustom Modifiers Method Definitions */
+    
+    public:
+        /* MultiMapCustom Operations Method Definitions */
 };
 
 #endif
